@@ -8,6 +8,8 @@ func main() {
 	var calculation string
 	fmt.Scanln(&calculation)
 	val, err := Calculate(calculation)
+	c := newConverter(val)
+	n, err := c.convert()
 	if err != nil {
 		fmt.Println(err)
 	} else {
