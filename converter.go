@@ -26,6 +26,7 @@ type node struct {
 	val float64
 }
 
+// Converter
 func newConverter(expressions []expression) *converter {
 	return &converter{expressions: expressions, i: 0}
 }
