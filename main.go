@@ -15,4 +15,6 @@ func main() {
 	} else {
 		fmt.Println(val)
 	}
+	result, err := calculate(n)
+	fmt.Printf("Result: %f", result)
 }

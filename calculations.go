@@ -38,11 +38,9 @@ func Calculate(equation string) ([]expression, error) {
 		if isOperator(char) {
 			i++
 			equations = append(equations, expression{kind: operatorToken, str: string(char)})
+			continue
 		}
-		if isLetter(char) {
-			fmt.Println("In calculation there is a letter")
-			break
-		}
+
 		if isNumber(char) {
 			startIndex := i
 			i++
@@ -51,6 +49,10 @@ func Calculate(equation string) ([]expression, error) {
 			}
 			equations = append(equations, expression{kind: numberToken, str: string(chars[startIndex:i])})
 			continue
+		}
+		if isLetter(char) {
+			fmt.Println("In calculation there is a letter")
+			break
 		}
 		if val, err := numberPrefix(chars, &i, n); err == nil {
 			equations = append(equations, expression{kind: numberToken, val: val})
@@ -100,4 +102,49 @@ func numberPrefix(chars []rune, i *int, n int) (float64, error) {
 		return val, nil
 	}
 	return 0, errors.New("Lack of a number")
+}
+func calculate(n *node) (float64, error) {
+	switch n.kind {
+	case addNode:
+		left, err := calculate(n.left)
+		if err != nil {
+			return 0, err
+		}
+		right, err := calculate(n.right)
+		if err != nil {
+			return 0, err
+		}
+		return left + right, nil
+	case subNode:
+		left, err := calculate(n.left)
+		if err != nil {
+			return 0, err
+		}
+		right, err := calculate(n.right)
+		if err != nil {
+			return 0, nil
+		}
+		return right - left, nil
+	case mulNode:
+		left, err := calculate(n.left)
+		if err != nil {
+			return 0, err
+		}
+		right, err := calculate(n.right)
+		if err != nil {
+			return 0, nil
+		}
+		return left * right, err
+	case divNode:
+		left, err := calculate(n.left)
+		if err != nil {
+			return 0, err
+		}
+		right, err := calculate(n.right)
+		if err != nil {
+			return 0, nil
+		}
+		return left / right, err
+	}
+	return 0, fmt.Errorf("Unknown node type: %s", n.kind)
 }
