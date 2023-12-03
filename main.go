@@ -12,7 +12,6 @@ func main() {
 			break
 		}
 		val, err := Calculate(calculation)
-		fmt.Println("Tokens: ", val)
 		c := newConverter(val)
 		n, err := c.convert()
 		if err != nil {
