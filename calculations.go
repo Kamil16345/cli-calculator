@@ -88,59 +88,46 @@ func numberPrefix(chars []rune, i *int, n int) (float64, error) {
 	return 0, errors.New("Lack of a number")
 }
 func calculate(n *node) (float64, error) {
-	fmt.Println("n.kind: ", n.kind)
 	switch n.kind {
 	case addNode:
-		fmt.Println("add before left: ")
 		left, err := calculate(n.left)
 		if err != nil {
 			return 0, err
 		}
-		fmt.Println("add before right: ")
 		right, err := calculate(n.right)
 		if err != nil {
 			return 0, err
 		}
-		fmt.Printf("Result add: %f\n", left+right)
 		return left + right, nil
 	case subNode:
-		fmt.Println("sub before left: ")
 		left, err := calculate(n.left)
 		if err != nil {
 			return 0, err
 		}
 		right, err := calculate(n.right)
-		fmt.Println("add before right: ")
 		if err != nil {
 			return 0, nil
 		}
-		fmt.Printf("Result sub: %f\n", left-right)
 		return left - right, nil
 	case mulNode:
-		fmt.Println("mul before left: ")
 		left, err := calculate(n.left)
 		if err != nil {
 			return 0, err
 		}
-		fmt.Println("mul before right: ")
 		right, err := calculate(n.right)
 		if err != nil {
 			return 0, nil
 		}
-		fmt.Printf("Result mul: %f\n", left*right)
 		return left * right, err
 	case divNode:
-		fmt.Println("div before left: ")
 		left, err := calculate(n.left)
 		if err != nil {
 			return 0, err
 		}
-		fmt.Println("div before right: ")
 		right, err := calculate(n.right)
 		if err != nil {
 			return 0, nil
 		}
-		fmt.Printf("Result div: %f\n", left/right)
 		return left / right, err
 	case numNode:
 		return n.val, nil
