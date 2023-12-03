@@ -35,8 +35,10 @@ func newConverter(expressions []expression) *converter {
 func (c *converter) convert() (*node, error) {
 	return c.add()
 }
+
 func (c *converter) add() (*node, error) {
 	n, err := c.mul()
+
 	if err != nil {
 		return nil, err
 	}
@@ -52,10 +54,13 @@ func (c *converter) add() (*node, error) {
 				return nil, err
 			}
 		} else {
+
 			return n, nil
 		}
 	}
+
 }
+
 func (c *converter) mul() (*node, error) {
 	n, err := c.primary()
 	if err != nil {
@@ -77,6 +82,7 @@ func (c *converter) mul() (*node, error) {
 		}
 	}
 }
+
 func (c *converter) primary() (*node, error) {
 	if c.consume("(") {
 		n, err := c.add()
@@ -106,6 +112,7 @@ func (c *converter) insert(n *node, f func() (*node, error), kind nodeKind) (*no
 	}
 	return &node{kind: kind, left: left, right: right}, err
 }
+
 func (c *converter) unary() (*node, error) {
 	if c.consume("+") {
 		return c.primary()
@@ -114,6 +121,7 @@ func (c *converter) unary() (*node, error) {
 	}
 	return c.primary()
 }
+
 func (c *converter) numberNode() (*node, error) {
 	t := c.expressions[c.i]
 	if t.kind != numberToken {
